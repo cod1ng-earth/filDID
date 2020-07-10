@@ -1,0 +1,59 @@
+{
+  "env": {
+    "es6": true,
+    "node": true,
+    "jest": true,
+    "browser": true
+  },
+  "extends": ["react-app", "airbnb-base"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "parser": "@typescript-eslint/parser"
+  },
+  "rules": {
+    "consistent-return": 1,
+    "no-unused-vars": "off",
+    "no-underscore-dangle": "off",
+    "no-restricted-syntax": "off",
+    "no-plusplus": 0,
+    "react-hooks/exhaustive-deps": 0,
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "max-len": [
+      "warn",
+      {
+        "code": 100,
+        "ignoreComments": true
+      }
+    ],
+    "no-console": "off",
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}
