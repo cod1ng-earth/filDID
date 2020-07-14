@@ -12,11 +12,8 @@ cache:
   - lib/js-ceramic/packages/ceramic-cli/node_modules
   
 before_script:
-  - npm install -g lerna
-  - cd lib/js-ceramic && npm run bootstrap && npm run build
-  - cd packages/ceramic-core && yarn link
-  - cd ../../../.. && yarn link @ceramicnetwork/ceramic-core
-
+  - yarn run build:deps
+  
 script:
   - yarn run test
   - yarn run build

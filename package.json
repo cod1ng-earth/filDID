@@ -38,6 +38,7 @@
     "react-test-renderer": "^16.13.1"
   },
   "scripts": {
+    "build:deps": "tools/build-deps.sh",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
