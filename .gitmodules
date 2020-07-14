@@ -1,3 +1,3 @@
 [submodule "lib/js-ceramic"]
 	path = lib/js-ceramic
-	url = git@github.com:cod1ng-earth/js-ceramic.git
+	url = https://github.com/cod1ng-earth/js-ceramic.git
