@@ -1,10 +1,20 @@
 language: node_js
 node_js:
-  - "stable"
+  - 14
+
 cache:
+  yarn: true
   directories:
   - node_modules
+  - lib/js-ceramic/node_modules
+  - lib/js-ceramic/packages/ceramic-common/node_modules
+  - lib/js-ceramic/packages/ceramic-core/node_modules
+  - lib/js-ceramic/packages/ceramic-cli/node_modules
+  
+before_script:
+  - yarn run build:deps
+  
 script:
-  - yarn run build
   - yarn run test
+  - yarn run build
   

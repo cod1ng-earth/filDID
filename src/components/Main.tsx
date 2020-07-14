@@ -3,8 +3,9 @@ import IPFS from 'ipfs';
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3Context } from 'web3-react';
+import Ceramic from '@ceramicnetwork/ceramic-core';
 
-const Main = ({ ipfs }: { ipfs: IPFS }) => {
+const Main = ({ ipfs, ceramic }: { ipfs: IPFS, ceramic: Ceramic }) => {
   const { account, library: web3, setConnector } = useWeb3Context();
   const [box, setBox] = useState<any>();
 
@@ -46,9 +47,21 @@ const Main = ({ ipfs }: { ipfs: IPFS }) => {
     const publicData = await box.public.all();
     console.log(publicData);
   }
+
+  async function createCidDoc() {
+    const doc = await ceramic.createDocument("tile", { 
+      owners: ['0x4f34eF8a549dbB6D00D562A55919a8aE66a16F1C'],
+      content: {
+        some: "content",
+      }
+     })
+    console.log(doc);
+  }
+
   return <div>test{ethBalance}
     {web3 && <div><button onClick={connectTo3box}>connect 3box</button></div>}
     {box && <div><button onClick={listContents}>list content</button></div>}
+    {<div><button onClick={createCidDoc}>create doc</button></div>}
   </div>;
 };
 
