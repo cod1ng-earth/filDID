@@ -6,19 +6,18 @@ cache:
   yarn: true
   directories:
   - node_modules
-
-before_install:
-  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-  - git submodule update --init --recursive
-
+  - lib/js-ceramic/node_modules
+  - lib/js-ceramic/packages/ceramic-common/node_modules
+  - lib/js-ceramic/packages/ceramic-core/node_modules
+  - lib/js-ceramic/packages/ceramic-cli/node_modules
+  
 before_script:
   - npm install -g lerna
+  - cd lib/js-ceramic && npm run bootstrap && npm run build
+  - cd packages/ceramic-core && yarn link
+  - cd ../../../.. && yarn link @ceramicnetwork/ceramic-core
 
 script:
-  - cd lib/js-ceramic && npm run bootstrap
-  - cd lib/js-ceramic && npm run build
-  - cd lib/js-ceramic/ceramic-core && yarn link
-  - yarn link @ceramicnetwork/ceramic-core
   - yarn run test
   - yarn run build
   
