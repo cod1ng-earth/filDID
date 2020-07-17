@@ -1,3 +1,7 @@
 [submodule "lib/js-ceramic"]
 	path = lib/js-ceramic
 	url = https://github.com/cod1ng-earth/js-ceramic.git
+
+[submodule "lib/did-jwt-vc"]
+	path = lib/did-jwt-vc
+	url = https://github.com/cod1ng-earth/did-jwt-vc.git

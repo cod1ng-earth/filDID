@@ -1,10 +1,16 @@
 import Box from '3box';
 import IPFS from 'ipfs';
+
+import EthrDID from 'ethr-did';
+
+import { Issuer, JwtCredentialPayload, createVerifiableCredentialJwt } from 'did-jwt-vc';
+
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3Context } from 'web3-react';
 import Ceramic from '@ceramicnetwork/ceramic-core';
 
+const SOME_ETH_ADDRESS = '0x4f34eF8a549dbB6D00D562A55919a8aE66a16F1C';
 const Main = ({ ipfs, ceramic }: { ipfs: IPFS, ceramic: Ceramic }) => {
   const { account, library: web3, setConnector } = useWeb3Context();
   const [box, setBox] = useState<any>();
@@ -49,19 +55,58 @@ const Main = ({ ipfs, ceramic }: { ipfs: IPFS, ceramic: Ceramic }) => {
   }
 
   async function createCidDoc() {
-    const doc = await ceramic.createDocument("tile", { 
-      owners: ['0x4f34eF8a549dbB6D00D562A55919a8aE66a16F1C'],
+    const doc = await ceramic.createDocument('tile', {
+      owners: [SOME_ETH_ADDRESS],
       content: {
-        some: "content",
-      }
-     })
+        some: 'content',
+      },
+    });
     console.log(doc);
+  }
+
+  async function createNewCredentialPayload(issuer: Issuer, forAddress: string) {
+    const vcPayload: JwtCredentialPayload = {
+      sub: `did:ethr:${forAddress}`,
+      nbf: 1562950282,
+      vc: {
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        credentialSubject: {
+          degree: {
+            type: 'HackFS FilDID user',
+            name: 'This user worked on FilDID',
+          },
+        },
+      },
+    };
+
+    const vcJwt = await createVerifiableCredentialJwt(vcPayload, issuer);
+    return vcJwt;
+  }
+
+  function createNewIssuer() {
+    const aNewAccount = web3.eth.accounts.create();
+
+    const issuer: Issuer = new EthrDID({
+      address: aNewAccount.address,
+      privateKey: aNewAccount.privateKey,
+    });
+    return issuer;
+  }
+
+  async function createNewJwtCredential(forAddress: string) {
+    const issuer = createNewIssuer();
+    const vcJwt = await createNewCredentialPayload(issuer, forAddress);
+    console.log(vcJwt);
   }
 
   return <div>test{ethBalance}
     {web3 && <div><button onClick={connectTo3box}>connect 3box</button></div>}
     {box && <div><button onClick={listContents}>list content</button></div>}
-    {<div><button onClick={createCidDoc}>create doc</button></div>}
+    <div><button onClick={createCidDoc}>create doc</button></div>
+    {account && <div>
+      <button onClick={() => createNewJwtCredential(account)}>create VC JWT</button>
+    </div>}
   </div>;
 };
 
