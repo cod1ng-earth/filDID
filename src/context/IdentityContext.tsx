@@ -8,7 +8,7 @@ import { useWeb3Context } from 'web3-react';
 import Box from '3box';
 
 // const seed = '0x7872d6e0ae7347b72c9216db218ebbb9d9d0ae7ab818ead3557e8e78bf944184';
-const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
+// const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
 
 interface IIdentityProviderProps {
     children: any;
@@ -59,6 +59,7 @@ export const IdentityProvider = ({
 
       setIpfsNode(_ipfs);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const createNewSeed = () => {
@@ -98,6 +99,7 @@ export const IdentityProvider = ({
 
       const idWallet = makeIdentityWallet(ceramicSeed);
       setIdentityWallet(idWallet);
+
       // idWallet.linkAddress(account!, web3.eth.currentProvider);
       await _ceramic.setDIDProvider(idWallet.get3idProvider());
       setCeramic(_ceramic);

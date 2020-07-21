@@ -47,6 +47,7 @@ const NavBar = () => {
 
       setEthBalance(parseFloat(readableEthBalance));
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
   return <Navbar

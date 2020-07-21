@@ -1,4 +1,4 @@
-import Ceramic from '@ceramicnetwork/ceramic-core';
+import { ThreeIdDoctype } from '@ceramicnetwork/ceramic-doctype-three-id';
 import { VerifiableCredentialDoctype } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
 import { RouteComponentProps } from '@reach/router';
 import {
@@ -32,23 +32,50 @@ function createNewCredentialPayload(subject: string) {
 const CeramicPage = (props: RouteComponentProps) => {
   const { ceramic } = useIdentity();
   const [vcDoc, setVcDoc] = useState<VerifiableCredentialDoctype>();
+  const [ceramicDidDoc, setCeramicDidDoc] = useState<ThreeIdDoctype>();
 
-  async function createVerifiableCredentialDoc(_ceramic: Ceramic) {
-    const { DID } = _ceramic.context.user!;
-    const payload = createNewCredentialPayload(DID);
+  async function loadDIDDoc(did: string) {
+    // todo: how to generically load my user's generic 3id doc?
+    const cid = did.split(':')[2];
+
+    const docId = `ceramic://${cid}`;
+    const didDoc = await ceramic!.loadDocument(docId);
+    setCeramicDidDoc(didDoc);
+  }
+
+  async function createVerifiableCredentialDoc(did: string) {
+    const payload = createNewCredentialPayload(did);
 
     const doc: VerifiableCredentialDoctype = await ceramic!.createDocument('verifiable-credential', {
-      owners: [DID],
+      owners: [did],
       content: payload,
     });
-    console.log(doc);
+
     setVcDoc(doc);
   }
 
+  const did = ceramic?.context.user?.DID || '';
+
   return (<Page >
-    <Header>Ceramic</Header>
+      {ceramic && <Header sub>{ceramic.context.user?.DID}</Header>}
+      <Header size="large">Ceramic</Header>
+
     {ceramic
-      && <Button onClick={() => createVerifiableCredentialDoc(ceramic)}>Create a VerifiableCredential</Button>
+      && <Section>
+        <Button onClick={() => loadDIDDoc(did)}>load DID doc</Button>
+        <Button onClick={() => createVerifiableCredentialDoc(did)}>Create a VerifiableCredential</Button>
+        </Section>
+    }
+    {ceramicDidDoc && <Section>
+
+      <Header>DID doc contents</Header>
+      <Header size="tiny">{ceramicDidDoc?.state?.anchorProof?.root.toString()}</Header>
+
+        <code>
+            {JSON.stringify(ceramicDidDoc.content, null, 2)}
+        </code>
+
+    </Section>
     }
 
     {vcDoc && <Section>
