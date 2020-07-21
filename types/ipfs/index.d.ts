@@ -25,6 +25,8 @@ declare class IPFS {
 
   files: any;
 
+  dag: any;
+
   version: Function;
 
   swarm: IPFS.SwarmAPI;
