@@ -56,7 +56,7 @@ export const IdentityProvider = ({
         offline: false,
         config: ipfsConfig,
       });
-
+      // _ipfs.swarm.connect('/ip4/127.0.0.1/tcp/4002/ws/ipfs/QmRZgtRrc4d1FX67ddGWWyabUQZxjZi8Tp1exu98mfGTvQ');
       setIpfsNode(_ipfs);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -65,7 +65,9 @@ const NavbarBase = (props: any) => {
     classes += ` ${className}`;
   }
 
-  const Logo = () => <Image src={eridanosLogo} size='mini' />;
+  const Logo = () => <Link className="dcl navbar-logo" to="/" >
+    <Image src={eridanosLogo} size='mini' />
+  </Link>;
 
   return <div className={classes} role="navigation">
   <Container>
@@ -76,18 +78,16 @@ const NavbarBase = (props: any) => {
         stackable
         minWidth={Responsive.onlyTablet.minWidth}
       >
-        <a className="dcl navbar-logo" href="/" >
-          <Logo />
-        </a>
+        <Logo />
         {props.leftMenu}
       </Responsive>
       <Responsive
         {...Responsive.onlyMobile}
         className="dcl navbar-mobile-menu"
       >
-        <a className="dcl navbar-logo" href="/">
+
         <Logo />
-        </a>
+
         <Header
           size="small"
           className={`dcl active-page ${
