@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="eridanos.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 211.66666 211.66667"
+   height="800"
+   width="800">
+  <defs
+     id="defs2">
+    <rect
+       id="rect841"
+       height="26.04446"
+       width="53.433154"
+       y="87.831479"
+       x="58.154258" />
+    <rect
+       id="rect835"
+       height="22.620943"
+       width="46.50233"
+       y="37.394404"
+       x="22.31656" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient857-4"
+       id="linearGradient859"
+       x1="174.8347"
+       y1="104.59248"
+       x2="77.379219"
+       y2="65.783401"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.4594247,0,0,1.490541,-41.662152,-24.007894)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient857-4">
+      <stop
+         style="stop-color:#ff2056;stop-opacity:1"
+         offset="0"
+         id="stop853" />
+      <stop
+         style="stop-color:#ff9610;stop-opacity:1"
+         offset="1"
+         id="stop855" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-maximized="0"
+     inkscape:window-y="116"
+     inkscape:window-x="505"
+     inkscape:window-height="1205"
+     inkscape:window-width="2100"
+     units="px"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="text847"
+     inkscape:document-units="mm"
+     inkscape:cy="297.48536"
+     inkscape:cx="482.62736"
+     inkscape:zoom="0.98994949"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 2"
+     id="layer3"
+     inkscape:groupmode="layer">
+    <ellipse
+       ry="101.90929"
+       rx="99.781853"
+       style="fill:url(#linearGradient859);fill-opacity:1;stroke:#ffffff;stroke-width:6.21057;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path851"
+       cx="105.68862"
+       cy="105.50435" />
+  </g>
+  <g
+     style="display:inline"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       sodipodi:nodetypes="ccccccc"
+       id="path849"
+       d="m 14.804726,102.73476 33.558839,16.86587 c 0.458134,0.22594 0.841047,-0.1323 0.804365,-0.50667 L 46.572191,83.912976 c -0.04356,-0.699505 -0.374068,-1.052325 -1.22469,-0.612636 l -30.767456,18.18115 c -0.445522,0.44934 -0.214854,1.03841 0.224681,1.25327 z"
+       style="fill:#ffffff;stroke:none;stroke-width:0.379078px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;paint-order:stroke markers fill" />
+    <g
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect835);fill:#ffffff;fill-opacity:1;stroke:none"
+       id="text833"
+       transform="matrix(10.40834,0,0,10.734085,-181.86767,-367.32663)"
+       aria-label="E">
+      <path
+         id="path927"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:FreeSerif;-inkscape-font-specification:'FreeSerif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff"
+         d="m 24.475399,46.337419 q 0,0.306916 0.169333,0.380999 0.179916,0.07408 0.941914,0.07408 h 0.285749 q 1.132413,0 1.619245,-0.264582 0.486832,-0.275166 0.878414,-1.132413 h 0.296332 l -0.476248,1.788577 h -5.714982 v -0.201082 q 0.582081,-0.04233 0.751414,-0.211666 0.169333,-0.179916 0.169333,-0.740831 v -4.698985 q 0,-0.560915 -0.169333,-0.730248 -0.169333,-0.179916 -0.751414,-0.222249 v -0.201083 h 5.619732 l 0.03175,1.513412 H 27.862055 Q 27.724472,40.98227 27.438723,40.781187 27.152974,40.580104 26.253394,40.580104 h -1.428746 q -0.211666,0 -0.285749,0.07408 -0.0635,0.0635 -0.0635,0.285749 v 2.349492 h 1.629829 q 0.677331,0 0.86783,-0.201083 0.201083,-0.211666 0.296332,-0.80433 h 0.243416 v 2.455325 H 27.26939 q -0.105833,-0.656164 -0.306915,-0.83608 -0.201083,-0.179917 -0.857247,-0.179917 h -1.629829 z" />
+    </g>
+    <g
+       style="font-style:normal;font-weight:normal;font-size:111.268px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.78171"
+       id="text847"
+       transform="scale(0.98470972,1.0155277)"
+       aria-label="Σ">
+      <path
+         id="path930"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:111.268px;font-family:FreeSerif;-inkscape-font-specification:'FreeSerif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:2.78171"
+         d="M 182.21249,136.77051 H 121.23762 L 158.1786,99.829533 121.46016,63.222361 h 59.41711 l 1.33522,19.694436 h -1.78029 q -0.77888,-7.121152 -6.34228,-11.68314 -5.5634,-4.561988 -12.90709,-4.561988 h -18.24795 q -3.56057,0 -3.56057,2.002824 0,0.445072 2.55916,3.226772 2.55917,2.670432 6.45354,6.67608 4.00565,3.89438 7.78876,7.677492 3.78312,3.671844 7.23242,7.121152 3.56058,3.33804 4.22819,4.005648 l -29.81982,29.708553 h 33.93673 q 3.89438,0 6.11974,-2.7817 2.33663,-2.7817 2.33663,-6.67608 v -0.77887 h 2.00283 z" />
+    </g>
+    <ellipse
+       ry="3.5346773"
+       rx="3.4274113"
+       cy="135.62259"
+       cx="189.50056"
+       id="path895"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.91026;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

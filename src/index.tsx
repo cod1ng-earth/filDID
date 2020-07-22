@@ -1,10 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import 'decentraland-ui/lib/styles.css';
+import 'decentraland-ui/lib/dark-theme.css';
+import './css/theme.css';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
+/*
+<React.StrictMode>
   </React.StrictMode>,
-  document.getElementById('root'),
+  */
+ReactDOM.render(
+
+    <App />,
+
+    document.getElementById('root'),
 );
