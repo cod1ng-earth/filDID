@@ -1,6 +1,6 @@
 import { ThreeIdDoctype } from '@ceramicnetwork/ceramic-doctype-three-id';
 import { TileDoctype } from '@ceramicnetwork/ceramic-doctype-tile';
-import { VerifiableCredentialDoctype } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
+import { VerifiableCredentialDoctype, VerifiableCredentialParams } from '../vcdoctype/index';
 import { RouteComponentProps, Redirect } from '@reach/router';
 import {
   Button, Header, Page, Section, Form, Field,
@@ -101,12 +101,14 @@ const CeramicPage = (props: RouteComponentProps) => {
 
   async function createVerifiableCredentialDoc(did: string) {
     const payload = createNewCredentialPayload(did);
+    const vcParams: VerifiableCredentialParams = {
+      content: {
+        claims: payload
+      },
+      owners: [did]
+    }
 
-    const doc: VerifiableCredentialDoctype = await ceramic!.createDocument('verifiable-credential', {
-      owners: [did],
-      content: payload,
-    });
-
+    const doc: VerifiableCredentialDoctype = await ceramic!.createDocument('verifiable-credential', vcParams);
     setVcDoc(doc);
   }
 
