@@ -6,12 +6,7 @@ cache:
   yarn: true
   directories:
   - node_modules
-  - lib/js-ceramic/node_modules
-  - lib/js-ceramic/packages/ceramic-common/node_modules
-  - lib/js-ceramic/packages/ceramic-core/node_modules
-  - lib/js-ceramic/packages/ceramic-cli/node_modules
-  - lib/did-jwt-vc/packages/node_modules
-  
+
 before_script:
   - yarn run build:deps
   
