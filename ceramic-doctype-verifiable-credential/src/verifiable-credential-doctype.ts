@@ -61,7 +61,7 @@ export class VerifiableCredentialDoctype extends Doctype {
         if (!context.user) {
             throw new Error('No user authenticated')
         }
-
+        
         let { owners, content } = params
 
         if (!owners) {
