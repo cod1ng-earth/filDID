@@ -8,6 +8,7 @@
     "@ceramicnetwork/ceramic-core": "^0.2.7",
     "@ceramicnetwork/ceramic-doctype-three-id": "^0.2.7",
     "@ceramicnetwork/ceramic-doctype-tile": "^0.2.7",
+    "@ceramicnetwork/ceramic-doctype-verifiable-credential": "./ceramic-doctype-verifiable-credential",
     "@reach/router": "^1.3.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/user-event": "^7.1.2",
@@ -48,7 +49,7 @@
     "react-test-renderer": "^16.13.1"
   },
   "scripts": {
-    "build:deps": "tools/build-deps.sh",
+    "preinstall": "cd ceramic-doctype-verifiable-credential && npm i && npm run build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -2,11 +2,11 @@ import React, {
   createContext, useState, useContext, useEffect,
 } from 'react';
 import IPFS from 'ipfs';
-import Ceramic from "@ceramicnetwork/ceramic-core"
+import Ceramic from '@ceramicnetwork/ceramic-core';
 import IdentityWallet, { IConsentRequest } from 'identity-wallet';
 import { useWeb3Context } from 'web3-react';
 import Box from '3box';
-import { VerifiableCredentialDoctypeHandler } from '../components/vcdoctype/index'
+import { VerifiableCredentialDoctypeHandler } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
 
 // const seed = '0x7872d6e0ae7347b72c9216db218ebbb9d9d0ae7ab818ead3557e8e78bf944184';
 // const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
@@ -103,7 +103,7 @@ export const IdentityProvider = ({
 
       // idWallet.linkAddress(account!, web3.eth.currentProvider);
       await _ceramic.setDIDProvider(idWallet.get3idProvider());
-      _ceramic.addDoctypeHandler(new VerifiableCredentialDoctypeHandler())
+      _ceramic.addDoctypeHandler(new VerifiableCredentialDoctypeHandler());
       setCeramic(_ceramic);
     } catch (e) {
       console.error(e);

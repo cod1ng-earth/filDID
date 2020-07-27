@@ -1,12 +1,15 @@
 import { ThreeIdDoctype } from '@ceramicnetwork/ceramic-doctype-three-id';
 import { TileDoctype } from '@ceramicnetwork/ceramic-doctype-tile';
-import { VerifiableCredentialDoctype, VerifiableCredentialParams } from '../vcdoctype/index';
 import { RouteComponentProps, Redirect } from '@reach/router';
 import {
   Button, Header, Page, Section, Form, Field,
 } from 'decentraland-ui';
 import { JwtCredentialPayload } from 'did-jwt-vc';
 import React, { useState } from 'react';
+import {
+  VerifiableCredentialDoctype, VerifiableCredentialParams,
+} from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
+
 import { useIdentity } from '../../context/IdentityContext';
 
 function createNewCredentialPayload(subject: string) {
@@ -103,10 +106,10 @@ const CeramicPage = (props: RouteComponentProps) => {
     const payload = createNewCredentialPayload(did);
     const vcParams: VerifiableCredentialParams = {
       content: {
-        claims: payload
+        claims: payload,
       },
-      owners: [did]
-    }
+      owners: [did],
+    };
 
     const doc: VerifiableCredentialDoctype = await ceramic!.createDocument('verifiable-credential', vcParams);
     setVcDoc(doc);
