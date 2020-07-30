@@ -27,6 +27,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "react-semantic-toasts": "^0.6.5",
     "typescript": "^3.9",
     "web3": "^1.2.9",
     "web3-react": "^5.0.5"

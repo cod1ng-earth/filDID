@@ -1,11 +1,44 @@
 import { RouteComponentProps, Redirect } from '@reach/router';
 import {
-  Header, Page, Button, Section,
+  Header, Page, Button, Section, Form, Field,
 } from 'decentraland-ui';
 import React, { useState } from 'react';
 import Box from '3box';
+import { toast } from 'react-semantic-toasts';
 import { useIdentity } from '../../context/IdentityContext';
 
+const Edit3boxData = ({ threeBox }: {threeBox: any}) => {
+  async function onSubmit(evt: any) {
+    evt.preventDefault();
+    const newName = evt.target[0].value;
+    const newEmail = evt.target[1].value;
+    evt.target[0].value = '';
+    evt.target[1].value = '';
+
+    if (newName) {
+      const nameSetResult = threeBox.public.set('name', newName);
+      toast({
+        type: 'success',
+        title: 'name changed.',
+      });
+    }
+
+    if (newEmail) {
+      const mailSetResult = threeBox.public.set('mail', newEmail);
+      const mailSetResult2 = threeBox.public.set('email', newEmail);
+      toast({
+        type: 'success',
+        title: 'email changed.',
+      });
+    }
+  }
+  return <Form onSubmit={onSubmit}>
+          <Field label="Name" placeholder="update your name" />
+          <Field label="Email" placeholder="update your email address" />
+          <Button type="submit">change 3box content</Button>
+
+        </Form>;
+};
 const ThreeBoxPage = (props: RouteComponentProps) => {
   const { ipfsNode, threeBox } = useIdentity();
 
@@ -22,12 +55,9 @@ const ThreeBoxPage = (props: RouteComponentProps) => {
 
     const value = await ipfsNode!.dag.get(didDag);
     setDidDoc(value);
-    console.log(value);
   }
 
   async function listContents() {
-    await threeBox.syncDone;
-
     resolve3boxDidDoc(threeBox.DID);
 
     const profile = await Box.getProfile(threeBox.DID);
@@ -64,6 +94,7 @@ const ThreeBoxPage = (props: RouteComponentProps) => {
         </code>
     </Section>
     }
+    <Edit3boxData threeBox={threeBox} />
   </Page>);
 };
 export default ThreeBoxPage;

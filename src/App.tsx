@@ -2,6 +2,7 @@ import React from 'react';
 import Web3 from 'web3';
 import Web3Provider, { Connectors } from 'web3-react';
 import { Router } from '@reach/router';
+import { SemanticToastContainer } from 'react-semantic-toasts';
 import { Footer } from './components/organisms/Footer';
 import NavBar from './components/organisms/NavBar';
 
@@ -18,6 +19,7 @@ const App: React.FC = () => {
   const connectors = { MetaMask };
 
   return <Web3Provider connectors={connectors} libraryName="web3.js" web3Api={Web3}>
+    <SemanticToastContainer />
     <div className="main">
       <IdentityProvider>
         <NavBar />
