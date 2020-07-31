@@ -7,6 +7,7 @@ import IdentityWallet, { IConsentRequest } from 'identity-wallet';
 import { useWeb3Context } from 'web3-react';
 import Box from '3box';
 import { VerifiableCredentialDoctypeHandler } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
+import { toast } from 'react-semantic-toasts';
 
 // const seed = '0x7872d6e0ae7347b72c9216db218ebbb9d9d0ae7ab818ead3557e8e78bf944184';
 // const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
@@ -22,6 +23,7 @@ export interface IIdentityContext {
   ceramic: Ceramic | null;
   identityWallet: IdentityWallet | null;
   threeBox: any,
+  threeBoxLoading: boolean,
   connectTo3box: (box: any) => void
 }
 
@@ -30,6 +32,7 @@ const IdentityContext = createContext<IIdentityContext>({
   ceramic: null,
   identityWallet: null,
   threeBox: null,
+  threeBoxLoading: false,
   connectTo3box: () => { },
 });
 
@@ -50,6 +53,7 @@ export const IdentityProvider = ({
   const [ceramic, setCeramic] = useState<Ceramic | null>(null);
   const [identityWallet, setIdentityWallet] = useState<IdentityWallet | null>(null);
   const [threeBox, set3Box] = useState();
+  const [threeBoxLoading, set3BoxLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -81,6 +85,7 @@ export const IdentityProvider = ({
 
   async function connectTo3box() {
     try {
+      set3BoxLoading(true);
       const _box = await Box.openBox(account, web3.eth.currentProvider, {
         ipfs: ipfsNode,
       });
@@ -88,6 +93,11 @@ export const IdentityProvider = ({
       set3Box(_box);
       await _box.syncDone;
 
+      set3BoxLoading(false);
+      toast({
+        type: 'success',
+        title: '3box loaded.',
+      });
       let ceramicSeed = await _box.private.get('ceramic_seed');
       if (!ceramicSeed) {
         ceramicSeed = createNewSeed();
@@ -112,7 +122,7 @@ export const IdentityProvider = ({
 
   return (
       <IdentityContext.Provider value={{
-        ipfsNode, ceramic, threeBox, connectTo3box, identityWallet,
+        ipfsNode, ceramic, threeBox, connectTo3box, identityWallet, threeBoxLoading,
       }} >
           {children}
       </IdentityContext.Provider>

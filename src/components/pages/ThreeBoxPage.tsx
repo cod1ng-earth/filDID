@@ -16,7 +16,7 @@ const Edit3boxData = ({ threeBox }: {threeBox: any}) => {
     evt.target[1].value = '';
 
     if (newName) {
-      const nameSetResult = threeBox.public.set('name', newName);
+      threeBox.public.set('name', newName);
       toast({
         type: 'success',
         title: 'name changed.',
@@ -24,8 +24,8 @@ const Edit3boxData = ({ threeBox }: {threeBox: any}) => {
     }
 
     if (newEmail) {
-      const mailSetResult = threeBox.public.set('mail', newEmail);
-      const mailSetResult2 = threeBox.public.set('email', newEmail);
+      threeBox.public.set('mail', newEmail);
+      threeBox.public.set('email', newEmail);
       toast({
         type: 'success',
         title: 'email changed.',
@@ -47,7 +47,7 @@ const ThreeBoxPage = (props: RouteComponentProps) => {
   const [publicData, setPublicData] = useState<object>();
 
   if (!threeBox) {
-    return <Redirect to="/" />;
+    return <Redirect to="/" noThrow />;
   }
 
   async function resolve3boxDidDoc(did: string) {

@@ -4,7 +4,7 @@ import Web3Provider, { Connectors } from 'web3-react';
 import { Router } from '@reach/router';
 import { SemanticToastContainer } from 'react-semantic-toasts';
 import { Footer } from './components/organisms/Footer';
-import NavBar from './components/organisms/NavBar';
+import NavBar from './components/molecules/NavBar';
 
 import { IdentityProvider } from './context/IdentityContext';
 import Home from './components/pages/Home';

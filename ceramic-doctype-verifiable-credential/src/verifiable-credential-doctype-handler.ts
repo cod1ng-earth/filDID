@@ -1,12 +1,9 @@
+import { AnchorProof, AnchorRecord, AnchorStatus, Context, DocOpts, DocState, DoctypeConstructor, DoctypeHandler, SignatureStatus } from "@ceramicnetwork/ceramic-common"
 import CID from 'cids'
 import * as didJwt from 'did-jwt'
 import jsonpatch from 'fast-json-patch'
-
 import { VerifiableCredentialDoctype, VerifiableCredentialParams } from "./verifiable-credential-doctype"
-import {
-    AnchorProof, AnchorRecord, AnchorStatus, DocState, DoctypeConstructor, DoctypeHandler, DocOpts, SignatureStatus
-} from "@ceramicnetwork/ceramic-common"
-import { Context } from "@ceramicnetwork/ceramic-common"
+
 
 const DOCTYPE = 'verifiable-credential'
 

@@ -1,3 +1,13 @@
 .dcl.logo {
     background-image: none;
 }
+
+.dcl.field {
+    min-width: auto;
+}
+
+.ui.mx-2 {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+

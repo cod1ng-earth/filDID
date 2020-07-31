@@ -1,5 +1,5 @@
 import {
-  Blockie, Dropdown, Menu, Row, Column, Container, Responsive, Header, Image,
+  Blockie, Dropdown, Menu, Row, Column, Container, Responsive, Header, Image, Loader,
 } from 'decentraland-ui';
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
@@ -9,15 +9,15 @@ import { useIdentity } from '../../context/IdentityContext';
 import eridanosLogo from '../../img/eridanos.svg';
 
 const UserMenu = ({ account }: {account: string}) => {
-  const { connectTo3box, threeBox } = useIdentity();
+  const { connectTo3box, threeBox, threeBoxLoading } = useIdentity();
 
   return <Row>
       <Column align="right" >
         <span>{account}</span>
-        {threeBox && <span>{threeBox.DID}</span>}
+        { threeBox && <span>{threeBox.DID}</span> }
       </Column>
       <Column>
-        <Dropdown trigger={<Blockie seed={account} />} direction="left">
+        <Dropdown trigger={threeBoxLoading ? <Loader active size="tiny" /> : <Blockie seed={account} />} direction="left">
         <Dropdown.Menu>
             <Dropdown.Item text="connect 3box" onClick={connectTo3box} />
         </Dropdown.Menu>
