@@ -1,10 +1,13 @@
 import Ceramic from '@ceramicnetwork/ceramic-core';
-import { VerifiableCredentialDoctype, VerifiableCredentialParams } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
 import {
-  Button, Header, Icon, Section,
+  VerifiableCredentialDoctype, VerifiableCredentialParams,
+} from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
+import {
+  Button, Header, Icon, Section, Segment,
 } from 'decentraland-ui';
 import { JwtCredentialPayload } from 'did-jwt-vc';
 import React, { useState } from 'react';
+import CreateVCForm from '../molecules/CreateVCForm';
 
 type Props = {
     ceramic: Ceramic,
@@ -54,11 +57,12 @@ const VcDocWidget = (props: Props) => {
     setVcDoc(doc);
   }
 
-  function onSubmit(evt: any) {
+  /* function onSubmit(evt: any) {
     evt.preventDefault();
     const tileDocId = evt.target[0].value;
     evt.target[0].value = '';
   }
+  */
 
   return (
     <Section>
@@ -70,6 +74,9 @@ const VcDocWidget = (props: Props) => {
                 <Icon name="add" /> add
             </Button>
         </Header>
+        <Segment>
+          <CreateVCForm />
+        </Segment>
         {vcDoc
             && <code>
                 {JSON.stringify(vcDoc.content, null, 2)}
