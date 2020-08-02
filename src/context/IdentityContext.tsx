@@ -104,15 +104,15 @@ export const IdentityProvider = ({
         _box.private.set('ceramic_seed', ceramicSeed);
       }
 
-      const _ceramic = await Ceramic.create(ipfsNode, {
-        ...ceramicConfig,
-      });
-
       const idWallet = makeIdentityWallet(ceramicSeed);
       setIdentityWallet(idWallet);
 
+      const _ceramic = await Ceramic.create(ipfsNode, {
+        ...ceramicConfig,
+        didProvider: idWallet.get3idProvider(),
+      });
+
       // idWallet.linkAddress(account!, web3.eth.currentProvider);
-      await _ceramic.setDIDProvider(idWallet.get3idProvider());
       _ceramic.addDoctypeHandler(new VerifiableCredentialDoctypeHandler());
       setCeramic(_ceramic);
     } catch (e) {

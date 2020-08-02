@@ -87,7 +87,6 @@ const NavbarBase = (props: any) => {
       >
 
         <Logo />
-
         <Header
           size="small"
           className={`dcl active-page ${
@@ -102,7 +101,7 @@ const NavbarBase = (props: any) => {
 
     <div className="dcl navbar-account">{props.rightMenu}</div>
   </Container>
-  <div className="mobile-menu">{props.leftMenu}</div>
+<div className="mobile-menu" onClick={() => setToggle(false)}>{props.leftMenu}</div>
 </div>;
 };
 

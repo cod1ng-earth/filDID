@@ -30,6 +30,7 @@ const DidDocWidget = (props: Props) => {
       <Section>
         <Header>DID</Header>
         {didDoc && <>
+            <p>{did}</p>
             <p>{didRoot(didDoc)}</p>
             <code>
                 {JSON.stringify(didDoc.content, null, 2)}

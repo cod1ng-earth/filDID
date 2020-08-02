@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Ceramic from '@ceramicnetwork/ceramic-core';
 import { TileDoctype } from '@ceramicnetwork/ceramic-doctype-tile';
 import {
-  Button, Section, Header, Form, Field, Segment, List, Grid, Label, Icon, Divider,
+  Button, Section, Header, Form, Field, Segment, List, Grid, Label, Icon,
 } from 'decentraland-ui';
 
 type Props = {
