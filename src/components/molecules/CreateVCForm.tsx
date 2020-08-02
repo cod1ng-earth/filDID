@@ -108,9 +108,15 @@ export default function CreateVCForm({ onVcDocCreated }: Props) {
     const signedClaim = await identityWallet.signClaim(jwtClaim);
     console.log(signedClaim);
     */
+
+    // --- method1: create a signed JWT, verifiable by did-jwt-vc:
     const jwt = await ceramic.context.user.sign(jwtPayload);
     console.log('jwt', jwt);
+    const { resolver } = ceramic.context;
+    const verified = await verifyCredential(jwt, resolver);
+    console.log('verified jwt', verified);
 
+    // --- method2: create a signed JWS proof, verifiable by did-jwt:
     const didProvider = identityWallet.getDidProvider();
     const jwsResult = await didProvider.send({
       jsonrpc: '2.0',
@@ -121,15 +127,7 @@ export default function CreateVCForm({ onVcDocCreated }: Props) {
       },
     });
     const { jws } = jwsResult.result;
-
-    const { resolver } = ceramic.context;
-    const verified = await verifyCredential(jwt, resolver);
-    console.log('verified jwt', verified);
-
-    const { signingKey } = ceramic.context.user.publicKeys; // managementKey
-
-    console.log(signingKey);
-
+    const { signingKey } = ceramic.context.user.publicKeys;
     const pubKey = verifyJWS(jws, [{
       id: 'did:3:GENESIS#signingKey',
       type: 'Secp256k1SignatureAuthentication2018',
