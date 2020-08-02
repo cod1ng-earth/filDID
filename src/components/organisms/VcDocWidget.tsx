@@ -64,6 +64,10 @@ const VcDocWidget = (props: Props) => {
   }
   */
 
+  const onVcDocCreated = (createdDoc: VerifiableCredentialDoctype) => {
+    setVcDoc(createdDoc);
+  };
+
   return (
     <Section>
       <Header>
@@ -75,7 +79,7 @@ const VcDocWidget = (props: Props) => {
             </Button>
         </Header>
         <Segment>
-          <CreateVCForm />
+          <CreateVCForm onVcDocCreated={onVcDocCreated} />
         </Segment>
         {vcDoc
             && <code>
