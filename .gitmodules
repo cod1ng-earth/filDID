@@ -1,3 +1,6 @@
 [submodule "lib/identity-wallet-js"]
 	path = lib/identity-wallet-js
 	url = https://github.com/3box/identity-wallet-js.git
+[submodule "lib/js-ceramic"]
+	path = lib/js-ceramic
+	url = https://github.com/ceramicnetwork/js-ceramic.git
