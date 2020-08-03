@@ -1,0 +1,3 @@
+[submodule "lib/identity-wallet-js"]
+	path = lib/identity-wallet-js
+	url = https://github.com/3box/identity-wallet-js.git

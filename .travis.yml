@@ -7,7 +7,7 @@ cache:
   directories:
   - node_modules
   - ceramic-doctype-verifiable-credential/node_modules
-  
+  - lib/identity-wallet-js/node_modules
 script:
   - yarn run test
   - yarn run build

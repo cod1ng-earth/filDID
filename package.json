@@ -50,7 +50,8 @@
     "react-test-renderer": "^16.13.1"
   },
   "scripts": {
-    "preinstall": "cd ceramic-doctype-verifiable-credential && npm i && npm run build",
+    "build:deps": "tools/build-deps.sh",
+    "preinstall": "yarn run build:deps && cd ceramic-doctype-verifiable-credential && npm i && npm run build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
