@@ -11,7 +11,7 @@ import { toast } from 'react-semantic-toasts';
 import Keyring from 'identity-wallet/lib/keyring';
 
 // const seed = '0x7872d6e0ae7347b72c9216db218ebbb9d9d0ae7ab818ead3557e8e78bf944184';
-const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
+// const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
 
 interface IIdentityProviderProps {
     children: any;
@@ -43,7 +43,7 @@ export const IdentityProvider = ({
   children,
   ipfsConfig = {},
   ceramicConfig = {
-    anchorServiceUrl: DEFAULT_ANCHOR_SERVICE_URL,
+    //anchorServiceUrl: DEFAULT_ANCHOR_SERVICE_URL,
     ethereumRpcUrl: 'http://127.0.0.1:7545',
     stateStorePath: './ceramic.lvl',
   },
