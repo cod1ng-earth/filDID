@@ -1,5 +1,7 @@
 import { Button, Field, Form } from 'decentraland-ui';
-import { JwtCredentialPayload, verifyCredential } from 'did-jwt-vc';
+import {
+  JwtCredentialPayload, verifyCredential, CredentialPayload,
+} from 'did-jwt-vc';
 import { verifyJWS } from 'did-jwt';
 
 import React, { useReducer } from 'react';
@@ -41,28 +43,51 @@ function reducer(state: VCFormState, action: Action) {
   };
 }
 
-const makeJwtPayload = (claim: any, formState: VCFormState): JwtCredentialPayload => {
+const makeCredentialSubject = ({
+  subjectId, property, type, name,
+}: {
+  subjectId: string, property: string, type: string, name: string
+}) => ({
+  id: subjectId,
+  [property]: {
+    type,
+    name,
+  },
+});
+
+/**
+ * used to build jwts.
+ */
+const transformFormStateToJwtPayload = (
+  formState: VCFormState,
+  issuer: string,
+): JwtCredentialPayload => {
   const issuanceDate = Math.floor((new Date()).getTime() / 1000);
   const payload: JwtCredentialPayload = {
+    iss: issuer,
     sub: formState.subjectId,
     iat: issuanceDate,
     nbf: issuanceDate,
-    vc: claim,
+    vc: {
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      type: ['VerifiableCredential'],
+      credentialSubject: makeCredentialSubject(formState),
+    },
   };
   return payload;
 };
 
-const transformFormStateToVerifiableClaim = (formState: VCFormState, issuer: string) => ({
+const transformFormStateToCredentialPayload = (
+  formState: VCFormState,
+  issuer: string,
+): CredentialPayload => ({
   '@context': ['https://www.w3.org/2018/credentials/v1'],
   type: ['VerifiableCredential'],
-  issuer,
-  credentialSubject: {
-    id: formState.subjectId,
-    [formState.property]: {
-      type: formState.type,
-      name: formState.name,
-    },
+  issuanceDate: (new Date()).toISOString(),
+  issuer: {
+    id: issuer,
   },
+  credentialSubject: makeCredentialSubject(formState),
 });
 
 type Props = {
@@ -93,8 +118,8 @@ export default function CreateVCForm({ onVcDocCreated }: Props) {
   }
 
   async function onSubmit(evt: any) {
-    const claim = transformFormStateToVerifiableClaim(vcForm, ceramic.context.user.DID);
-    const jwtPayload = makeJwtPayload(claim, vcForm);
+    const claim = transformFormStateToCredentialPayload(vcForm, ceramic.context.user.DID);
+    const jwtPayload = transformFormStateToJwtPayload(vcForm, ceramic.context.user.DID);
 
     console.debug('claim', claim);
     console.debug('payload', jwtPayload);
@@ -123,18 +148,18 @@ export default function CreateVCForm({ onVcDocCreated }: Props) {
       id: 1,
       method: 'did_createJWS',
       params: {
-        payload: jwtPayload,
+        payload: claim,
       },
     });
     const { jws } = jwsResult.result;
-    const { signingKey } = ceramic.context.user.publicKeys;
     const pubKey = verifyJWS(jws, [{
       id: 'did:3:GENESIS#signingKey',
       type: 'Secp256k1SignatureAuthentication2018',
       owner: ceramic.context.user.DID,
-      publicKeyHex: signingKey,
+      publicKeyHex: ceramic.context.user.publicKeys.signingKey,
     }]);
-    console.log('verified jws', pubKey);
+
+    console.log('verified jws', jws, pubKey);
 
     const doc = await createVerifiableCredentialDocument(verified);
     onVcDocCreated(doc);

@@ -8,7 +8,6 @@ import { useWeb3Context } from 'web3-react';
 import Box from '3box';
 import { VerifiableCredentialDoctypeHandler } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
 import { toast } from 'react-semantic-toasts';
-import Keyring from 'identity-wallet/lib/keyring';
 
 // const seed = '0x7872d6e0ae7347b72c9216db218ebbb9d9d0ae7ab818ead3557e8e78bf944184';
 const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
@@ -60,6 +59,7 @@ export const IdentityProvider = ({
     (async () => {
       const _ipfs = await IPFS.create({
         offline: false,
+        // preload: { enabled: false },
         config: ipfsConfig,
       });
       // _ipfs.swarm.connect('/ip4/127.0.0.1/tcp/4002/ws/ipfs/QmRZgtRrc4d1FX67ddGWWyabUQZxjZi8Tp1exu98mfGTvQ');
@@ -105,11 +105,7 @@ export const IdentityProvider = ({
         ceramicSeed = createNewSeed();
         _box.private.set('ceramic_seed', ceramicSeed);
       }
-      const keyring = new Keyring(ceramicSeed);
-      const signer = keyring.getRootSigner('managementKey');
 
-      const signed = await signer('sign this!');
-      console.log(signed);
       const idWallet = makeIdentityWallet(ceramicSeed);
       setIdentityWallet(idWallet);
 
