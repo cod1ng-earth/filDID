@@ -37,8 +37,6 @@ const TileDocWidget = (props: Props) => {
     const _tileDoc: TileDoctype = await ceramic!.createDocument<TileDoctype>('tile', {
       owners: [did],
       content: payload,
-    }, {
-      owners: [_did],
     });
 
     setTileDoc({
