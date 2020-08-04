@@ -1,4 +1,6 @@
-import { makeCredentialSubject, VerifiableCredentialDoctype, VerifiableCredentialParams } from '@ceramicnetwork/ceramic-doctype-verifiable-credential/';
+import {
+  makeCredentialSubject, VerifiableCredentialDoctype, VerifiableCredentialParams,
+} from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
 import { Button, Field, Form } from 'decentraland-ui';
 import React, { useReducer } from 'react';
 import { useIdentity } from '../../context/IdentityContext';

@@ -51,7 +51,7 @@
   },
   "scripts": {
     "build:deps": "tools/build-deps.sh",
-    "preinstall": "yarn run build:deps && cd ceramic-doctype-verifiable-credential && npm i && npm run build",
+    "postinstall": "yarn run build:deps",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
