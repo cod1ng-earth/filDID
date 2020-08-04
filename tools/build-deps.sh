@@ -15,5 +15,5 @@ cd ../..
 yarn link @ceramicnetwork/ceramic-core
 yarn link @ceramicnetwork/ceramic-doctype-three-id
 yarn link @ceramicnetwork/ceramic-doctype-tile
-yarn link @ceramicnetwork/ceramic-verifiable-credential
+yarn link @ceramicnetwork/ceramic-doctype-verifiable-credential
 yarn link identity-wallet
