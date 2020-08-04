@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import { Doctype } from '@ceramicnetwork/ceramic-common';
 import Ceramic from '@ceramicnetwork/ceramic-core';
 import { TileDoctype } from '@ceramicnetwork/ceramic-doctype-tile';
 import {
-  Button, Section, Header, Form, Field, Segment, List, Grid, Label, Icon, Divider,
+  Button, Field, Form, Grid, Header, Icon, Section, Segment,
 } from 'decentraland-ui';
+import React, { useState } from 'react';
+import RenderJson from '../atoms/RenderJson';
+import DocumentMeta from '../molecules/DocumentMeta';
 
 type Props = {
     ceramic: Ceramic,
@@ -12,16 +15,17 @@ type Props = {
 const TileDocWidget = (props: Props) => {
   const { ceramic, did } = props;
 
-  const [tileDoc, setTileDoc] = useState<any>();
+  const [doc, setDoc] = useState({
+    content: null,
+    doc: null,
+  });
 
-  async function loadTileDoc(docId: string) {
-    const _tileDoc = await ceramic!.loadDocument<TileDoctype>(docId);
-    console.log(_tileDoc);
-    setTileDoc({
-      docId,
-      head: _tileDoc.head.toString(),
-      content: _tileDoc.content,
-      _doc: _tileDoc,
+  async function loadDoc(docId: string) {
+    const _doc = await ceramic!.loadDocument<Doctype>(docId);
+    console.log(_doc);
+    setDoc({
+      content: _doc.content,
+      doc: _doc,
     });
 
     const versions = await ceramic!.listVersions(docId);
@@ -35,17 +39,12 @@ const TileDocWidget = (props: Props) => {
     };
 
     const _tileDoc: TileDoctype = await ceramic!.createDocument<TileDoctype>('tile', {
-      owners: [did],
-      content: payload,
-    }, {
       owners: [_did],
+      content: payload,
     });
-
-    setTileDoc({
-      docId: _tileDoc.id.toString(),
-      head: _tileDoc.head.toString(),
+    setDoc({
       content: _tileDoc.content,
-      _doc: _tileDoc,
+      doc: _tileDoc,
     });
   }
 
@@ -57,19 +56,17 @@ const TileDocWidget = (props: Props) => {
       content: payload,
     });
     console.log('changed', _tileDoc);
-    setTileDoc({
-      docId: _tileDoc.id.toString(),
-      head: _tileDoc.head.toString(),
+    setDoc({
       content: _tileDoc.content,
-      _doc: _tileDoc,
+      doc: _tileDoc,
     });
   }
 
   function onSubmit(evt: any) {
     evt.preventDefault();
-    const tileDocId = evt.target[0].value;
+    const ceramicId = evt.target[0].value;
     evt.target[0].value = '';
-    loadTileDoc(tileDocId);
+    loadDoc(ceramicId);
   }
 
   return (
@@ -78,7 +75,7 @@ const TileDocWidget = (props: Props) => {
             Tile documents
 
             <Button basic size="tiny" onClick={() => createTileDoc(did)} className="mx-2">
-                <Icon name="add" /> add
+                <Icon name="add" /> create tile
             </Button>
         </Header>
         <Form onSubmit={onSubmit}>
@@ -94,23 +91,14 @@ const TileDocWidget = (props: Props) => {
             </Grid>
         </Form>
 
-    {tileDoc && <>
+    {doc.doc && <>
         <Segment>
-        <List divided selection>
-            <List.Item>
-                <Label horizontal>id</Label>
-                <p>{tileDoc.docId}</p>
-            </List.Item>
-            <List.Item>
-                <Label horizontal>head</Label>
-                <p>{tileDoc.head}</p>
-            </List.Item>
-        </List>
+          <DocumentMeta doc={doc.doc} />
         </Segment>
-        <code>
-            {JSON.stringify(tileDoc.content, null, 2)}
-        </code>
-        <Button onClick={() => updateTileDoc(tileDoc._doc)}>update</Button>
+        <RenderJson data={doc.content} />
+        { doc.doc.doctype === 'tile'
+            && <Button onClick={() => updateTileDoc(doc.doc)}>update</Button>
+        }
         </>
     }
     </Section>

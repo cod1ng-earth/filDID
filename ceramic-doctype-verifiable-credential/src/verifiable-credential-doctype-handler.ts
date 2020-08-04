@@ -2,7 +2,8 @@ import { AnchorProof, AnchorRecord, AnchorStatus, Context, DocOpts, DocState, Do
 import CID from 'cids'
 import * as didJwt from 'did-jwt'
 import jsonpatch from 'fast-json-patch'
-import { VerifiableCredentialDoctype, VerifiableCredentialParams } from "./verifiable-credential-doctype"
+import { VerifiableCredentialDoctype } from "./verifiable-credential-doctype"
+import { VerifiableCredentialParams } from "./credentials"
 
 
 const DOCTYPE = 'verifiable-credential'
@@ -66,8 +67,8 @@ export class VerifiableCredentialDoctypeHandler implements DoctypeHandler<Verifi
     async _applyGenesis(record: any, cid: CID, context: Context): Promise<DocState> {
         await this._verifyRecordSignature(record, context)
 
-        if (!record.content.claims) {
-            throw new Error('Claims need to be specified in content')
+        if (!record.content.credentialSubject) {
+            throw new Error('some subject needs to be specified in content')
         }
 
         return {

@@ -3,14 +3,14 @@ import React, {
 } from 'react';
 import IPFS from 'ipfs';
 import Ceramic from '@ceramicnetwork/ceramic-core';
-import IdentityWallet, { IConsentRequest } from 'identity-wallet';
+import IdentityWallet from 'identity-wallet';
 import { useWeb3Context } from 'web3-react';
 import Box from '3box';
 import { VerifiableCredentialDoctypeHandler } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
 import { toast } from 'react-semantic-toasts';
 
 // const seed = '0x7872d6e0ae7347b72c9216db218ebbb9d9d0ae7ab818ead3557e8e78bf944184';
-// const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
+const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
 
 interface IIdentityProviderProps {
     children: any;
@@ -42,7 +42,7 @@ export const IdentityProvider = ({
   children,
   ipfsConfig = {},
   ceramicConfig = {
-    // anchorServiceUrl: DEFAULT_ANCHOR_SERVICE_URL,
+    anchorServiceUrl: DEFAULT_ANCHOR_SERVICE_URL,
     ethereumRpcUrl: 'http://127.0.0.1:7545',
     stateStorePath: './ceramic.lvl',
   },
@@ -59,6 +59,7 @@ export const IdentityProvider = ({
     (async () => {
       const _ipfs = await IPFS.create({
         offline: false,
+        // preload: { enabled: false },
         config: ipfsConfig,
       });
       // _ipfs.swarm.connect('/ip4/127.0.0.1/tcp/4002/ws/ipfs/QmRZgtRrc4d1FX67ddGWWyabUQZxjZi8Tp1exu98mfGTvQ');
@@ -76,7 +77,7 @@ export const IdentityProvider = ({
   };
 
   function makeIdentityWallet(seed: string) : IdentityWallet {
-    return new IdentityWallet((request: IConsentRequest) => true, {
+    return new IdentityWallet((request) => Promise.resolve(true), {
       seed,
       // ethereumAddress: account,
       // externalAuth,
@@ -99,20 +100,21 @@ export const IdentityProvider = ({
         title: '3box loaded.',
       });
       let ceramicSeed = await _box.private.get('ceramic_seed');
+
       if (!ceramicSeed) {
         ceramicSeed = createNewSeed();
         _box.private.set('ceramic_seed', ceramicSeed);
       }
 
-      const _ceramic = await Ceramic.create(ipfsNode, {
-        ...ceramicConfig,
-      });
-
       const idWallet = makeIdentityWallet(ceramicSeed);
       setIdentityWallet(idWallet);
 
+      const _ceramic = await Ceramic.create(ipfsNode, {
+        ...ceramicConfig,
+        didProvider: idWallet.get3idProvider(),
+      });
+
       // idWallet.linkAddress(account!, web3.eth.currentProvider);
-      await _ceramic.setDIDProvider(idWallet.get3idProvider());
       _ceramic.addDoctypeHandler(new VerifiableCredentialDoctypeHandler());
       setCeramic(_ceramic);
     } catch (e) {

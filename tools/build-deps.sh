@@ -1,2 +1,19 @@
 #!/usr/bin/env bash
-yarn
+git submodule update --init --recursive
+
+npm install -g lerna
+cd lib/js-ceramic && npm run bootstrap && npm run build
+cd packages/ceramic-core && yarn link
+cd ../ceramic-doctype-three-id && yarn link
+cd ../ceramic-doctype-tile && yarn link
+cd ../../../..
+cd lib/identity-wallet-js && npm install && npx tsc -p . && yarn link
+cd ../..
+cd ceramic-doctype-verifiable-credential && npm i && npm run build && yarn link
+cd ..
+
+yarn link @ceramicnetwork/ceramic-core
+yarn link @ceramicnetwork/ceramic-doctype-three-id
+yarn link @ceramicnetwork/ceramic-doctype-tile
+yarn link @ceramicnetwork/ceramic-doctype-verifiable-credential
+yarn link identity-wallet
