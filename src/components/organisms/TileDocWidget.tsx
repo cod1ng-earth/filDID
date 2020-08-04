@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
 import Ceramic from '@ceramicnetwork/ceramic-core';
 import { TileDoctype } from '@ceramicnetwork/ceramic-doctype-tile';
 import {
-  Button, Section, Header, Form, Field, Segment, List, Grid, Label, Icon,
+  Button, Field, Form, Grid, Header, Icon, Section, Segment,
 } from 'decentraland-ui';
+import React, { useState } from 'react';
+import DocumentMeta from '../molecules/DocumentMeta';
 
 type Props = {
     ceramic: Ceramic,
@@ -94,16 +95,7 @@ const TileDocWidget = (props: Props) => {
 
     {tileDoc && <>
         <Segment>
-        <List divided selection>
-            <List.Item>
-                <Label horizontal>id</Label>
-                <p>{tileDoc.docId}</p>
-            </List.Item>
-            <List.Item>
-                <Label horizontal>head</Label>
-                <p>{tileDoc.head}</p>
-            </List.Item>
-        </List>
+          <DocumentMeta doc={tileDoc} />
         </Segment>
         <code>
             {JSON.stringify(tileDoc.content, null, 2)}
