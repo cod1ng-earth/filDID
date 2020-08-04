@@ -40,23 +40,6 @@ const VcDocWidget = (props: Props) => {
 
   const [vcDoc, setVcDoc] = useState<any>();
 
-  async function createVerifiableCredentialDoc(_did: string) {
-    const payload = createNewCredentialPayload(_did);
-    const vcParams: VerifiableCredentialParams = {
-      content: {
-        claims: payload,
-      },
-      owners: [did],
-    };
-
-    const doc: VerifiableCredentialDoctype = await ceramic!.createDocument(
-      'verifiable-credential',
-      vcParams,
-    );
-
-    setVcDoc(doc);
-  }
-
   /* function onSubmit(evt: any) {
     evt.preventDefault();
     const tileDocId = evt.target[0].value;
@@ -72,11 +55,6 @@ const VcDocWidget = (props: Props) => {
     <Section>
       <Header>
             VerifiableCredentials
-            <Button basic size="tiny"
-                    onClick={() => createVerifiableCredentialDoc(did)}
-                    className="mx-2">
-                <Icon name="add" /> add
-            </Button>
         </Header>
         <Segment>
           <CreateVCForm onVcDocCreated={onVcDocCreated} />

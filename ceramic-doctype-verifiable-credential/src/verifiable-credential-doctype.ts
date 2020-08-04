@@ -1,20 +1,16 @@
 import jsonpatch from 'fast-json-patch'
 import { Doctype, DoctypeConstructor, DoctypeStatic, DocOpts } from "@ceramicnetwork/ceramic-common"
 import { Context, User } from "@ceramicnetwork/ceramic-common"
+import { VerifiableCredentialParams, makeCredentialPayload } from './credentials'
+import { Proof } from 'did-jwt-vc/lib/types';
 
-const DOCTYPE = 'verifiable-credential'
+const DOCTYPE = 'verifiable-credential';
 
 /**
  * content: Verifiable credential content
  * owners: List of owner Ids
  */
-export interface VerifiableCredentialParams {
-    content: {
-        claims: object
-        claimsHash?: string
-    }
-    owners: Array<string>;
-}
+
 
 @DoctypeStatic<DoctypeConstructor<VerifiableCredentialDoctype>>()
 export class VerifiableCredentialDoctype extends Doctype {
@@ -61,26 +57,53 @@ export class VerifiableCredentialDoctype extends Doctype {
         if (!context.user) {
             throw new Error('No user authenticated')
         }
-        
-        let { owners, content } = params
 
+        if (context.provider == null) {
+            throw new Error('this doctype requires a DIDProvider to be configured')
+        }
+
+        let { content, owners } = params
         if (!owners) {
             owners = [context.user.DID]
         }
-
+        
         if (!content) {
             throw new Error('Content needs to be specified')
         }
 
-        if (!content.claims) {
-            throw new Error('Claims needs to be specified in contents')
+        const credential = makeCredentialPayload(context.user.DID, content);
+        
+        const response = await context.provider.send({
+            jsonrpc: '2.0',
+            id: 1,
+            method: '3id_signJws',
+            params: {
+              payload: credential,
+            },
+        });
+        const { jws } = response.result as any;
+        const proof: Proof = {
+            type: "Secp256k1VerificationKey2018",  //Secp256k1SignatureAuthentication2018"
+            created: credential.issuanceDate,
+            proofPurpose: "assertionMethod",
+            verificationMethod: `${context.user.DID}#signingKey`,
+            jws
         }
+        credential.proof = proof;
+        /*     
+            how to verify: ...
+            const { jws } = jwsResult.result;
+            const pubKey = verifyJWS(jws, [{
+            id: 'did:3:GENESIS#signingKey',
+            type: 'Secp256k1SignatureAuthentication2018',
+            owner: ceramic.context.user.DID,
+            publicKeyHex: ceramic.context.user.publicKeys.signingKey,
+            }]);
 
-        if (!content.claimsHash) {
-            content.claimsHash = (await context.ipfs.dag.put(content.claims)).toString()
-        }
+            console.log('verified jws', jws, pubKey);
 
-        const record = { doctype: DOCTYPE, owners, content: content }
+        */
+        const record = { doctype: DOCTYPE, owners, content: credential }
         return VerifiableCredentialDoctype._signRecord(record, context.user)
     }
 
@@ -104,7 +127,6 @@ export class VerifiableCredentialDoctype extends Doctype {
 
         const patch = jsonpatch.compare(doctype.content, newContent)
         const record = { owners: doctype.owners, content: patch, prev: doctype.head, id: doctype.state.log[0] }
-
         return VerifiableCredentialDoctype._signRecord(record, user)
     }
 
