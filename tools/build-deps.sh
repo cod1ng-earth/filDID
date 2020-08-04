@@ -10,7 +10,7 @@ cd ../../../..
 cd lib/identity-wallet-js && npm install && npx tsc -p . && yarn link
 cd ../..
 cd ceramic-doctype-verifiable-credential && npm i && npm run build && yarn link
-cd ../..
+cd ..
 
 yarn link @ceramicnetwork/ceramic-core
 yarn link @ceramicnetwork/ceramic-doctype-three-id
