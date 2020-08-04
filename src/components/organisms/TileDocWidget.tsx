@@ -5,6 +5,7 @@ import {
 } from 'decentraland-ui';
 import React, { useState } from 'react';
 import DocumentMeta from '../molecules/DocumentMeta';
+import RenderJson from '../atoms/RenderJson';
 
 type Props = {
     ceramic: Ceramic,
@@ -97,9 +98,7 @@ const TileDocWidget = (props: Props) => {
         <Segment>
           <DocumentMeta doc={tileDoc} />
         </Segment>
-        <code>
-            {JSON.stringify(tileDoc.content, null, 2)}
-        </code>
+        <RenderJson data={tileDoc.content} />
         <Button onClick={() => updateTileDoc(tileDoc._doc)}>update</Button>
         </>
     }

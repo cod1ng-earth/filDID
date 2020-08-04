@@ -4,6 +4,7 @@ import { Header, Section, Segment } from 'decentraland-ui';
 import React, { useState } from 'react';
 import CreateVCForm from '../molecules/CreateVCForm';
 import DocumentMeta from '../molecules/DocumentMeta';
+import RenderJson from '../atoms/RenderJson';
 
 type Props = {
     ceramic: Ceramic,
@@ -31,9 +32,7 @@ const VcDocWidget = (props: Props) => {
             <Segment>
               {<DocumentMeta doc={vcDoc} />}
             </Segment>
-            <code>
-                {JSON.stringify(vcDoc.content, null, 2)}
-            </code>
+            <RenderJson data={vcDoc.content} />
           </>
         }
       </Section>

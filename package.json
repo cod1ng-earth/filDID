@@ -26,6 +26,7 @@
     "ipfs": "^0.47.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-json-pretty": "^2.2.0",
     "react-scripts": "3.4.1",
     "react-semantic-toasts": "^0.6.5",
     "typescript": "^3.9",
@@ -51,7 +52,6 @@
   },
   "scripts": {
     "build:deps": "tools/build-deps.sh",
-    "postinstall": "yarn run build:deps",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

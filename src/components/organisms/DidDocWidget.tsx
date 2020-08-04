@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Ceramic from '@ceramicnetwork/ceramic-core';
 import { ThreeIdDoctype } from '@ceramicnetwork/ceramic-doctype-three-id';
 import { Section, Header } from 'decentraland-ui';
+import RenderJson from '../atoms/RenderJson';
 
 type Props = {
     ceramic: Ceramic,
@@ -32,9 +33,7 @@ const DidDocWidget = (props: Props) => {
         {didDoc && <>
             <p>{did}</p>
             <p>{didRoot(didDoc)}</p>
-            <code>
-                {JSON.stringify(didDoc.content, null, 2)}
-            </code>
+            <RenderJson data={didDoc.content} />
         </>
         }
   </Section>

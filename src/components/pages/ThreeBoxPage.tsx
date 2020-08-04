@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import Box from '3box';
 import { toast } from 'react-semantic-toasts';
 import { useIdentity } from '../../context/IdentityContext';
+import RenderJson from '../atoms/RenderJson';
 
 const Edit3boxData = ({ threeBox }: {threeBox: any}) => {
   async function onSubmit(evt: any) {
@@ -73,25 +74,19 @@ const ThreeBoxPage = (props: RouteComponentProps) => {
     {didDoc
         && <Section>
             <Header>DID document</Header>
-            <code>
-                {JSON.stringify(didDoc, null, 2)}
-            </code>
+            <RenderJson data={didDoc} />
         </Section>
     }
     {profileData
         && <Section>
         <Header>Profile Data</Header>
-        <code>
-            {JSON.stringify(profileData, null, 2)}
-        </code>
+        <RenderJson data={profileData} />
     </Section>
     }
     {publicData
         && <Section>
         <Header>Public Data</Header>
-        <code>
-            {JSON.stringify(publicData, null, 2)}
-        </code>
+        <RenderJson data={publicData} />
     </Section>
     }
     <Edit3boxData threeBox={threeBox} />

@@ -9,6 +9,7 @@ cache:
   - ceramic-doctype-verifiable-credential/node_modules
   - lib/identity-wallet-js/node_modules
 script:
+  - yarn run build:deps
   - yarn run test
   - yarn run build
   
