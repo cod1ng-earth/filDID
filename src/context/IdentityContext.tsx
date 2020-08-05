@@ -9,7 +9,6 @@ import Box from '3box';
 import { VerifiableCredentialDoctypeHandler } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
 import { toast } from 'react-semantic-toasts';
 
-// const seed = '0x7872d6e0ae7347b72c9216db218ebbb9d9d0ae7ab818ead3557e8e78bf944184';
 const DEFAULT_ANCHOR_SERVICE_URL = 'https://cas.3box.io:8081/api/v0/requests';
 
 interface IIdentityProviderProps {
@@ -24,7 +23,7 @@ export interface IIdentityContext {
   identityWallet: IdentityWallet | null;
   threeBox: any,
   threeBoxLoading: boolean,
-  connectTo3box: (box: any) => void
+  connectTo3box: () => void
 }
 
 const IdentityContext = createContext<IIdentityContext>({
@@ -90,20 +89,24 @@ export const IdentityProvider = ({
       const _box = await Box.openBox(account, web3.eth.currentProvider, {
         ipfs: ipfsNode,
       });
-
-      set3Box(_box);
       await _box.syncDone;
-
+      set3Box(_box);
       set3BoxLoading(false);
+      const eridanosSpace = await _box.openSpace('eridanos');
+
       toast({
         type: 'success',
         title: '3box loaded.',
       });
-      let ceramicSeed = await _box.private.get('ceramic_seed');
+      let ceramicSeed = await eridanosSpace.private.get('ceramic_seed');
 
       if (!ceramicSeed) {
         ceramicSeed = createNewSeed();
-        _box.private.set('ceramic_seed', ceramicSeed);
+        eridanosSpace.private.set('ceramic_seed', ceramicSeed);
+        toast({
+          type: 'success',
+          title: 'created new seed for your ceramic 3id',
+        });
       }
 
       const idWallet = makeIdentityWallet(ceramicSeed);
@@ -118,7 +121,11 @@ export const IdentityProvider = ({
       _ceramic.addDoctypeHandler(new VerifiableCredentialDoctypeHandler());
       setCeramic(_ceramic);
     } catch (e) {
-      console.error(e);
+      toast({
+        time: 0,
+        type: 'error',
+        title: e.message,
+      });
     }
   }
 

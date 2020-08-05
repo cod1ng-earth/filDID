@@ -29,7 +29,7 @@ const DidDocWidget = (props: Props) => {
 
   return (
       <Section>
-        <Header>DID</Header>
+        <Header>Your DID</Header>
         {didDoc && <>
             <p>{did}</p>
             <p>{didRoot(didDoc)}</p>

@@ -1,60 +1,51 @@
+import { VerifiableCredentialDoctype } from '@ceramicnetwork/ceramic-doctype-verifiable-credential';
 import { Button, Field, Form } from 'decentraland-ui';
-import { JwtCredentialPayload, verifyCredential } from 'did-jwt-vc';
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
+import { toast } from 'react-semantic-toasts';
+
 import { useIdentity } from '../../context/IdentityContext';
 
-interface VCFormState {
-    property: string;
-    type: string;
-    name: string;
-    subjectId: string;
+interface Props {
+  onVcDocVerified: Function,
+  onDocLoaded: Function,
 }
 
-interface Action {
-    type: string,
-    field?: string,
-    value?: string,
-}
-
-const initialState: VCFormState = {
-  property: '',
-  type: '',
-  name: '',
-  subjectId: '',
-};
-
-function reset() {
-  return initialState;
-}
-
-function reducer(state: VCFormState, action: Action) {
-  if (action.type === 'reset') {
-    return reset();
-  }
-
-  return {
-    ...state,
-    [action.field]: action.value,
-  };
-}
-
-export default function VerifyVCForm() {
+export default function VerifyVCForm({ onVcDocVerified, onDocLoaded }: Props) {
   const { ceramic } = useIdentity();
-
   const [documentId, setDocumentId] = useState<string>();
 
   async function onSubmit(evt: any) {
+    evt.preventDefault();
 
+    const vcDoc = await ceramic.loadDocument<VerifiableCredentialDoctype>(documentId);
+    if (vcDoc.doctype !== 'verifiable-credential') {
+      throw new Error('only vc docs are allowed here.');
+    }
+    onDocLoaded(vcDoc);
+
+    const verificationResult = vcDoc.verify();
+    if (!verificationResult) {
+      return toast({
+        type: 'error',
+        title: 'could not prove the credential\'s  validity',
+      });
+    }
+    onVcDocVerified(verificationResult);
+    return true;
   }
 
-  const inputChange = (field: string) => (evt: React.FormEvent<HTMLInputElement>) => {
+  const inputChange = () => (evt: React.FormEvent<HTMLInputElement>) => {
     setDocumentId(evt.currentTarget.value);
   };
 
   return (
         <Form onSubmit={onSubmit}>
-            <Field label="document id" value={documentId} placeholder="ceramic://" onChange={inputChange('documentId')} />
-            <Button type="submit">verify verifiable credential</Button>
+            <Field label="a credential's document id"
+              value={documentId}
+              placeholder="ceramic://"
+              onChange={inputChange()}
+            />
+            <Button type="submit">verify credential</Button>
         </Form>
   );
 }

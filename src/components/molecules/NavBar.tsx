@@ -1,29 +1,42 @@
+import { Link, navigate } from '@reach/router';
 import {
-  Blockie, Dropdown, Menu, Row, Column, Container, Responsive, Header, Image, Loader,
+  Blockie, Column, Container, Header, Image, Loader, Menu, Responsive, Row, Grid,
 } from 'decentraland-ui';
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3Context } from 'web3-react';
-import { Link } from '@reach/router';
 import { useIdentity } from '../../context/IdentityContext';
 import eridanosLogo from '../../img/eridanos.svg';
 
-const UserMenu = ({ account }: {account: string}) => {
-  const { connectTo3box, threeBox, threeBoxLoading } = useIdentity();
+const UserMenu = () => {
+  const { threeBox, threeBoxLoading } = useIdentity();
 
-  return <Row>
-      <Column align="right" >
-        <span>{account}</span>
-        { threeBox && <span>{threeBox.DID}</span> }
-      </Column>
-      <Column>
-        <Dropdown trigger={threeBoxLoading ? <Loader active size="tiny" /> : <Blockie seed={account} />} direction="left">
-        <Dropdown.Menu>
-            <Dropdown.Item text="connect 3box" onClick={connectTo3box} />
-        </Dropdown.Menu>
-        </Dropdown>
-      </Column>
-    </Row>;
+  const [threeBoxUserName, set3boxUserName] = useState<string>();
+
+  useEffect(() => {
+    if (!threeBox) return;
+    (async () => {
+      const _publicData = await threeBox.public.all();
+      set3boxUserName(_publicData.name);
+    })();
+  }, [threeBox]);
+
+  return <Grid padded="horizontally">
+      <Row>
+        <Column align="right" >
+        {threeBoxLoading
+          ? <>
+              <Loader active size="tiny" />
+              <span>opening 3box</span>
+            </>
+          : threeBox && <Row onClick={() => navigate('/3box')}>
+                <Column><p style={{ padding: '4px' }}>{threeBoxUserName || threeBox.DID}</p></Column>
+                <Column><Blockie seed={threeBox.DID} /></Column>
+              </Row>
+          }
+        </Column>
+      </Row>
+    </Grid>;
 };
 
 const SignInMenu = ({ onSignIn }: any) => <Menu secondary>
@@ -110,7 +123,7 @@ const NavBar = (props:any) => {
     account, library: web3, setConnector, unsetConnector, error,
   } = useWeb3Context();
 
-  const { threeBox } = useIdentity();
+  const { threeBox, connectTo3box } = useIdentity();
 
   const [ethBalance, setEthBalance] = useState<number>();
 
@@ -126,6 +139,7 @@ const NavBar = (props:any) => {
       const readableEthBalance = Web3.utils.fromWei(_ethBalance);
 
       setEthBalance(parseFloat(readableEthBalance));
+      connectTo3box();
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
@@ -135,7 +149,7 @@ const NavBar = (props:any) => {
     address={account || ''}
     mana={ethBalance}
     onClickAccount={() => console.log('Clicked on account menu')}
-    rightMenu={account ? <UserMenu account={account} /> : <SignInMenu onSignIn={connect}/>}
+    rightMenu={account ? <UserMenu /> : <SignInMenu onSignIn={connect}/>}
     leftMenu={
       <>
         <Menu.Item as={Link} to="/">Home</Menu.Item>

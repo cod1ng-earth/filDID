@@ -21,7 +21,7 @@ const CeramicPage = (props: RouteComponentProps) => {
         <Header size="large">Ceramic</Header>
         <VcDocWidget ceramic={ceramic} did={did} />
         <TileDocWidget ceramic={ceramic} did={did} />
-        <DidDocWidget ceramic={ceramic}did={did} />
+        <DidDocWidget ceramic={ceramic} did={did} />
       </>}
   </Page>);
 };

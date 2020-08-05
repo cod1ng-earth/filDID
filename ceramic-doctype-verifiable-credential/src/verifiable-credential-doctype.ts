@@ -3,6 +3,7 @@ import { Doctype, DoctypeConstructor, DoctypeStatic, DocOpts } from "@ceramicnet
 import { Context, User } from "@ceramicnetwork/ceramic-common"
 import { VerifiableCredentialParams, makeCredentialPayload } from './credentials'
 import { Proof } from 'did-jwt-vc/lib/types';
+import { verifyJWS } from 'did-jwt';
 
 const DOCTYPE = 'verifiable-credential';
 
@@ -29,6 +30,20 @@ export class VerifiableCredentialDoctype extends Doctype {
         const updateRecord = await VerifiableCredentialDoctype._makeRecord(this, this.context.user, content, owners)
         const updated = await this.context.api.applyRecord(this.id, updateRecord, opts)
         this.state = updated.state
+    }
+
+    verify() {
+
+        const { jws, verificationMethod, type } = this.content.proof;
+        
+        const pubKey = verifyJWS(jws, [{
+            id: verificationMethod,
+            type,
+            owner: this.owners[0],
+            publicKeyHex: this.context.user.publicKeys.signingKey,
+        }]);
+
+        return pubKey;
     }
 
     /**
@@ -90,22 +105,11 @@ export class VerifiableCredentialDoctype extends Doctype {
             jws
         }
         credential.proof = proof;
-        /*     
-            how to verify: ...
-            const { jws } = jwsResult.result;
-            const pubKey = verifyJWS(jws, [{
-            id: 'did:3:GENESIS#signingKey',
-            type: 'Secp256k1SignatureAuthentication2018',
-            owner: ceramic.context.user.DID,
-            publicKeyHex: ceramic.context.user.publicKeys.signingKey,
-            }]);
-
-            console.log('verified jws', jws, pubKey);
-
-        */
+ 
         const record = { doctype: DOCTYPE, owners, content: credential }
         return VerifiableCredentialDoctype._signRecord(record, context.user)
     }
+
 
     /**
      * Make change record
